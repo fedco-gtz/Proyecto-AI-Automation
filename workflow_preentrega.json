@@ -1,0 +1,777 @@
+{
+  "name": "workflow_preentrega",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            },
+            {},
+            {}
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1QYA23E4pU2Tnhwy9UKkGdzFYXqIJfO8mPFaCdyflxQQ",
+          "mode": "list",
+          "cachedResultName": "Desempeño Académico",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QYA23E4pU2Tnhwy9UKkGdzFYXqIJfO8mPFaCdyflxQQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Turnos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QYA23E4pU2Tnhwy9UKkGdzFYXqIJfO8mPFaCdyflxQQ/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        -816
+      ],
+      "id": "d6934767-49ef-4e04-b8ad-416ea20c3f21",
+      "name": "Desempeño Académico",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "XpUNGY1mNrd00ZUu",
+          "name": "Google Sheets Trigger account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Desempeño Académico').item.json.Comunicado }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    },
+                    "id": "35c8ac8c-e77f-4b28-8cfe-cd8a8b0f5600"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        512,
+        -832
+      ],
+      "id": "9430deb7-c2eb-4f79-bad0-e02a7e253491",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1QYA23E4pU2Tnhwy9UKkGdzFYXqIJfO8mPFaCdyflxQQ",
+          "mode": "list",
+          "cachedResultName": "Desempeño Académico",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QYA23E4pU2Tnhwy9UKkGdzFYXqIJfO8mPFaCdyflxQQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Turnos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QYA23E4pU2Tnhwy9UKkGdzFYXqIJfO8mPFaCdyflxQQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Aviso Inasistencias": "TRUE",
+            "Email": "={{ $('Desempeño Académico').item.json.Email }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Apellido",
+              "displayName": "Apellido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Inasistencias",
+              "displayName": "Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Aviso Inasistencias",
+              "displayName": "Aviso Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Comunicado",
+              "displayName": "Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TRUE",
+              "displayName": "TRUE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        144,
+        -832
+      ],
+      "id": "a9aef226-0edf-458e-9160-27a4c78739f7",
+      "name": "Actualización de GS",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "LDMvMPNuRMWqm871",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7923843443",
+        "text": "=**ALERTA** \n\n{{ $('Desempeño Académico').item.json.Nombre }} {{ $('Desempeño Académico').item.json.Apellido }}, supero las 20 inasistencias.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        336,
+        -832
+      ],
+      "id": "6a6eb31d-0765-470b-8bac-28a0f251c921",
+      "name": "Envio de Mensaje",
+      "webhookId": "5a5da478-b3a0-4016-81a4-de00cf679bc2",
+      "credentials": {
+        "telegramApi": {
+          "id": "ZHdUG9iCnNQmgpgc",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Desempeño Académico').item.json.Email }}",
+        "subject": "=AVISO INASISTENCIAS  {{ $json.Nombre }} {{ $json.Apellido }}",
+        "emailType": "text",
+        "message": "=Estimadas familias:  Informamos que {{ $('Desempeño Académico').item.json.Nombre }} {{ $('Desempeño Académico').item.json.Apellido }}, al día de la fecha cuenta con {{ $('Desempeño Académico').item.json.Inasistencias }} inasistencias. Debido al nuevo Régimen Académico, se estableció que el máximo permitido es de 28 inasistencias, provocando la pérdida de la regularidad en caso de superarse.  Saludos cordiales.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -32,
+        -832
+      ],
+      "id": "d449688a-76e9-4bdf-a999-8689191e8c8b",
+      "name": "Envio de mail si + de 20 inasistencias",
+      "webhookId": "2b878fb9-5f16-4226-a69b-d407b64a0cc4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EykxHgIVlDpb6l5A",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "49147c41-3da7-45f2-b042-3676fafb6b8b",
+              "leftValue": "={{ $json.Inasistencias }}",
+              "rightValue": 20,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "b817b062-a87b-4e5f-8f35-f539095c06a7",
+              "leftValue": "={{ $json['Aviso Inasistencias'] }}",
+              "rightValue": "TRUE",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -336,
+        -816
+      ],
+      "id": "b046258e-5acd-4747-86cb-5b1970ab7f2f",
+      "name": "Condicional de cantidad de inasistencias"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ea7943d0-55c0-453c-8139-d28300c78a8a",
+              "leftValue": "={{ $json.Comunicado }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "85e2c9b1-946c-47c0-a327-56b3ba947354",
+              "leftValue": "={{ $json.TRUE }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -48,
+        -592
+      ],
+      "id": "ebed7af2-4322-467e-8e06-7c02d5f7d242",
+      "name": "Condicional de existencia de Comunicado"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Desempeño Académico').item.json.Email }}",
+        "subject": "=AVISO COMUNICADO  {{ $('Desempeño Académico').item.json.Nombre }} {{ $('Desempeño Académico').item.json.Apellido }}",
+        "emailType": "text",
+        "message": "={{ $('Desempeño Académico').item.json.Comunicado }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        736,
+        -608
+      ],
+      "id": "00149ae1-0f0c-43f2-9b83-8eaa63eacc05",
+      "name": "Envio de mail si existe comunicado",
+      "webhookId": "c242b4bf-eaa0-41e9-b98b-b8f49dd69e8b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "EykxHgIVlDpb6l5A",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://timeapi.io/api/Time/current/zone?timeZone=America/Argentina/Buenos_Aires",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1072,
+        -608
+      ],
+      "id": "77aa20c3-226d-4b48-9bae-8a269d1a81cc",
+      "name": "API Publica"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1QYA23E4pU2Tnhwy9UKkGdzFYXqIJfO8mPFaCdyflxQQ",
+          "mode": "list",
+          "cachedResultName": "Desempeño Académico",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QYA23E4pU2Tnhwy9UKkGdzFYXqIJfO8mPFaCdyflxQQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Turnos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QYA23E4pU2Tnhwy9UKkGdzFYXqIJfO8mPFaCdyflxQQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $('Desempeño Académico').item.json.Email }}",
+            "TRUE": "={{ $('Desempeño Académico').item.json['Aviso Comunicado'] == TRUE }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Apellido",
+              "displayName": "Apellido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Inasistencias",
+              "displayName": "Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Aviso Inasistencias",
+              "displayName": "Aviso Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Comunicado",
+              "displayName": "Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TRUE",
+              "displayName": "TRUE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        912,
+        -608
+      ],
+      "id": "a24b8fa8-4762-4127-aaad-de998d7e4ea8",
+      "name": "Actualización de GS1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "BRACl6hy925ZybEg",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1QYA23E4pU2Tnhwy9UKkGdzFYXqIJfO8mPFaCdyflxQQ",
+          "mode": "list",
+          "cachedResultName": "Desempeño Académico",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QYA23E4pU2Tnhwy9UKkGdzFYXqIJfO8mPFaCdyflxQQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Turnos",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1QYA23E4pU2Tnhwy9UKkGdzFYXqIJfO8mPFaCdyflxQQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fecha Notificación": "={{ $json.day }}/{{ $json.month }}/{{ $json.year }}",
+            "Email": "={{ $('Desempeño Académico').item.json.Email }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Apellido",
+              "displayName": "Apellido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Inasistencias",
+              "displayName": "Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Aviso Inasistencias",
+              "displayName": "Aviso Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Comunicado",
+              "displayName": "Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "TRUE",
+              "displayName": "TRUE",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha Notificación",
+              "displayName": "Fecha Notificación",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1248,
+        -608
+      ],
+      "id": "e7f8fec1-9992-4b93-9a9d-b4780bdc06b1",
+      "name": "Actualización de GS2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "BRACl6hy925ZybEg",
+          "name": "Google Sheets account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Desempeño Académico": {
+      "main": [
+        [
+          {
+            "node": "Condicional de cantidad de inasistencias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Envio de mail si existe comunicado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualización de GS": {
+      "main": [
+        [
+          {
+            "node": "Envio de Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envio de Mensaje": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envio de mail si + de 20 inasistencias": {
+      "main": [
+        [
+          {
+            "node": "Actualización de GS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Condicional de cantidad de inasistencias": {
+      "main": [
+        [
+          {
+            "node": "Envio de mail si + de 20 inasistencias",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Condicional de existencia de Comunicado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Condicional de existencia de Comunicado": {
+      "main": [
+        [
+          {
+            "node": "Envio de mail si existe comunicado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Envio de mail si existe comunicado": {
+      "main": [
+        [
+          {
+            "node": "Actualización de GS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "API Publica": {
+      "main": [
+        [
+          {
+            "node": "Actualización de GS2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualización de GS1": {
+      "main": [
+        [
+          {
+            "node": "API Publica",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ef6ace6b-caf2-40f6-ae2a-bce879560c96",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "da52e94d6810beaef779878139f5736ba7e553907302422e7c91f8d420c91ee6"
+  },
+  "id": "GJsqp3pXSrFPUnPL",
+  "tags": []
+}
