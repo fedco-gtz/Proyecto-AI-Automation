@@ -1,0 +1,1689 @@
+{
+  "name": "workflow_proyecto_final",
+  "nodes": [
+    {
+      "parameters": {
+        "chatId": "7923843443",
+        "text": "={{ $('LLM Inasistencias').item.json.text }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1232,
+        -1024
+      ],
+      "id": "aab102bd-dc23-491e-845b-5d333465049c",
+      "name": "Envio de Mensaje",
+      "webhookId": "5a5da478-b3a0-4016-81a4-de00cf679bc2",
+      "credentials": {
+        "telegramApi": {
+          "id": "0AHzRuFN1ugx1fSd",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Desempeño Académico Final').item.json.Email }}",
+        "subject": "=AVISO INASISTENCIAS  {{ $('Desempeño Académico Final').item.json.Nombre }} {{ $('Desempeño Académico Final').item.json.Apellido }}",
+        "emailType": "text",
+        "message": "={{ $('LLM Inasistencias').item.json.text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1472,
+        -1024
+      ],
+      "id": "cc814334-750a-46a7-b4e2-14822a740b59",
+      "name": "Envio de mail si + de 20 inasistencias",
+      "webhookId": "2b878fb9-5f16-4226-a69b-d407b64a0cc4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZwEiHDNq2b0LwWL3",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Desempeño Académico Final').item.json.Email }}",
+        "subject": "=COMUNICADO EDUCATIVO DE {{ $('Desempeño Académico Final').item.json.Nombre }} {{ $('Desempeño Académico Final').item.json.Apellido }}",
+        "emailType": "text",
+        "message": "={{ $json.text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1120,
+        -704
+      ],
+      "id": "ce5325db-88b7-4db4-84c2-0b1f64cb7521",
+      "name": "Envio de mail si existe comunicado",
+      "webhookId": "c242b4bf-eaa0-41e9-b98b-b8f49dd69e8b",
+      "notesInFlow": false,
+      "executeOnce": false,
+      "alwaysOutputData": false,
+      "retryOnFail": false,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZwEiHDNq2b0LwWL3",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "hour": 9
+            },
+            {},
+            {}
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1JSxlppvceOdJ_9TN3nv4vreivxZMa_GsQXals2ZpZko",
+          "mode": "list",
+          "cachedResultName": "Desempeño Académico Final",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JSxlppvceOdJ_9TN3nv4vreivxZMa_GsQXals2ZpZko/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Desempeño",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JSxlppvceOdJ_9TN3nv4vreivxZMa_GsQXals2ZpZko/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2400,
+        -544
+      ],
+      "id": "6bad180f-06d9-4f53-aad3-20161dd97e2a",
+      "name": "Desempeño Académico Final",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "Ykvpa5jo4YJ6FqMF",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1JSxlppvceOdJ_9TN3nv4vreivxZMa_GsQXals2ZpZko",
+          "mode": "list",
+          "cachedResultName": "Desempeño Académico Final",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JSxlppvceOdJ_9TN3nv4vreivxZMa_GsQXals2ZpZko/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Desempeño",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JSxlppvceOdJ_9TN3nv4vreivxZMa_GsQXals2ZpZko/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fecha Notificación Inasistencias": "={{ $json.fecha_actual_inasistencias }}",
+            "Aviso Inasistencias": "TRUE",
+            "Mensaje Inasistencias": "={{ $('LLM Inasistencias').item.json.text }}",
+            "ID": "={{ $('Desempeño Académico Final').item.json.ID }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Apellido",
+              "displayName": "Apellido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Inasistencias",
+              "displayName": "Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Comunicado",
+              "displayName": "Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Practicas del Lenguaje",
+              "displayName": "Practicas del Lenguaje",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Matemática",
+              "displayName": "Matemática",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ciencias Sociales",
+              "displayName": "Ciencias Sociales",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ciencias Naturales",
+              "displayName": "Ciencias Naturales",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Promedio",
+              "displayName": "Promedio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Responsable del mensaje",
+              "displayName": "Responsable del mensaje",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Mensaje Inasistencias",
+              "displayName": "Mensaje Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Aviso Inasistencias",
+              "displayName": "Aviso Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Fecha Notificación Inasistencias",
+              "displayName": "Fecha Notificación Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Mensaje Comunicado",
+              "displayName": "Mensaje Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Aviso Comunicado",
+              "displayName": "Aviso Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Fecha Notificación Comunicado",
+              "displayName": "Fecha Notificación Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Mensaje Calificaciones",
+              "displayName": "Mensaje Calificaciones",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Aviso Calificaciones",
+              "displayName": "Aviso Calificaciones",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Fecha Notificación Calificaciones",
+              "displayName": "Fecha Notificación Calificaciones",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -720,
+        -1024
+      ],
+      "id": "15f019c2-86c0-449a-9f57-a3b59ac6e184",
+      "name": "Actualización de GS Inasistencias",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "86sQh3WyD7FRnqDL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "message": "=Rol: Asistente escolar (PBA). Redactar email formal a la familia sobre inasistencias.\n\nDatos:\n- Alumno: {{ $('Desempeño Académico Final').item.json.Nombre }} {{ $('Desempeño Académico Final').item.json.Apellido }}\n- Faltas: {{ $('Desempeño Académico Final').item.json.Inasistencias }}\n\nLógica Estricta:\n- Si Faltas >= 28: Aviso de RIESGO ACADÉMICO y posible pérdida de regularidad (normativa PBA).\n- Si Faltas < 28: Aviso PREVENTIVO sobre la importancia de la asistencia.\n\nReglas de Formato:\n1. Inicio OBLIGATORIO: \"Estimada Familia,\"\n2. Integrar nombre del alumno en el párrafo (NO usar encabezados/títulos).\n3. Tono: Institucional, neutro, sin inventar datos ni sugerencias pedagógicas.\n4. Respuesta: Solo el cuerpo del correo.\n\nFirma:\nAtentamente,\n\n{{ $('Desempeño Académico Final').item.json['Responsable del mensaje'] }}\n{{ $('Desempeño Académico Final').item.json.Cargo }}\nColegio Nuevas Raíces de Temperley"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        -1824,
+        -1024
+      ],
+      "id": "d091dd7b-4607-4401-8bdd-ce4b8d1be519",
+      "name": "LLM Inasistencias",
+      "retryOnFail": false,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1ea52e8-6464-464e-937b-7886a201c7a6",
+              "name": "fecha_actual_inasistencias",
+              "value": "={{ $now.format('dd-MM-yyyy') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -976,
+        -1024
+      ],
+      "id": "0b7b44e0-0310-451f-9c78-01cdbccf08ad",
+      "name": "Fecha Inasistencias"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "message": "=Rol: Asistente institucional (PBA). Redactar email formal sobre comportamiento.\n\nDatos:\n- Base del texto: {{ $('Desempeño Académico Final').item.json.Comunicado }}\n- Alumno: {{ $('Desempeño Académico Final').item.json.Nombre }} {{ $('Desempeño Académico Final').item.json.Apellido }}\n\nReglas Estrictas:\n1. Inicio OBLIGATORIO: \"Estimada Familia,\"\n2. Formato: Integrar nombre del alumno en el cuerpo del texto de forma natural. NO usar encabezados.\n3. Contenido: Basarse EXCLUSIVAMENTE en \"Base del texto\". No inventar hechos, sanciones, fechas ni consejos pedagógicos.\n4. Restricción: No mencionar inasistencias ni notas (salvo que figuren en la Base).\n5. Tono: Objetivo, neutro y respetuoso.\n\nFirma exacta:\nAtentamente,  \n\n{{ $('Desempeño Académico Final').item.json['Responsable del mensaje'] }}\n{{ $('Desempeño Académico Final').item.json.Cargo }}\nColegio Nuevas Raíces de Temperley\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        -1600,
+        -624
+      ],
+      "id": "ab83f0ba-ac7e-448c-96c9-7916c7581cd4",
+      "name": "LLM Comunicado",
+      "retryOnFail": false,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1ea52e8-6464-464e-937b-7886a201c7a6",
+              "name": "fecha_actual_comunicado",
+              "value": "={{ $now.format('dd-MM-yyyy') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -928,
+        -704
+      ],
+      "id": "fe0349b7-abd5-4b73-8d25-7416e105bacd",
+      "name": "Fecha Comunicado"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "message": "=Rol: Asistente escolar (PBA). Redacta un email formal a la familia con las calificaciones finales.\n\nDatos:\n- Prácticas del Lenguaje: {{ $('Desempeño Académico Final').item.json['Practicas del Lenguaje'] }}\n- Matemática: {{ $('Desempeño Académico Final').item.json['Matemática'] }}\n- Ciencias Sociales: {{ $('Desempeño Académico Final').item.json['Ciencias Sociales'] }}\n- Ciencias Naturales: {{ $('Desempeño Académico Final').item.json['Ciencias Naturales'] }}\n- Promedio: {{ $('Desempeño Académico Final').item.json['Promedio'] }}\n\nReglas Estrictas:\n1. Valida datos: Si alguna nota no es numérica, responde SOLO que no es posible elaborar el informe.\n2. Usa el promedio dado (no recalcular).\n3. Contenido:\n   - Párrafo 1: Detalle de notas.\n   - Párrafo 2: Mención del promedio.\n   - Párrafo 3 (Cierre según promedio):\n     * > 7.00: Felicitar desempeño.\n     * 4.00 a 7.00: Indicar que \"requiere mayor esfuerzo para fortalecer aprendizajes\".\n     * < 4.00: Indicar \"necesidad de mayor compromiso con la trayectoria\".\n4. Tono: Institucional. Sin juicios, conducta, ni extras. Solo el cuerpo del mensaje.\n\nFirma obligatoria:\nAtentamente,\n\n{{ $('Desempeño Académico Final').item.json['Responsable del mensaje'] }}\n{{ $('Desempeño Académico Final').item.json.Cargo }}\nColegio Nuevas Raíces de Temperley\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        -1840,
+        -224
+      ],
+      "id": "eb509149-91a9-4251-9ebf-4443989e1448",
+      "name": "LLM Calificaciones",
+      "retryOnFail": false,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "model": "llama-3.1-8b-instant",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -1824,
+        -864
+      ],
+      "id": "d837950e-422d-4f9f-9ffc-da27140bd15a",
+      "name": "Groq Modelo Inasistencias",
+      "credentials": {
+        "groqApi": {
+          "id": "0XtJJ9UqTPeyzwPR",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "llama-3.1-8b-instant",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -1600,
+        -464
+      ],
+      "id": "6ece12ce-9267-412a-9f88-e4b15da5c6cf",
+      "name": "Groq Modelo Comunicado",
+      "credentials": {
+        "groqApi": {
+          "id": "0XtJJ9UqTPeyzwPR",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "llama-3.1-8b-instant",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -1840,
+        -64
+      ],
+      "id": "78e86165-7f2a-4c2e-9d9c-1514b1bc9678",
+      "name": "Groq Modelo Calificaciones",
+      "credentials": {
+        "groqApi": {
+          "id": "0XtJJ9UqTPeyzwPR",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Calificaciones').item.json.Email }}",
+        "subject": "=CALIFICACIONES DE {{ $('Desempeño Académico Final').item.json.Nombre }} {{ $('Desempeño Académico Final').item.json.Apellido }}",
+        "emailType": "text",
+        "message": "={{ $json.text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1200,
+        -224
+      ],
+      "id": "93a49cf7-fea0-4934-86e0-306388244dc4",
+      "name": "Envio de mail si existen calificaciones",
+      "webhookId": "c242b4bf-eaa0-41e9-b98b-b8f49dd69e8b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ZwEiHDNq2b0LwWL3",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1JSxlppvceOdJ_9TN3nv4vreivxZMa_GsQXals2ZpZko",
+          "mode": "list",
+          "cachedResultName": "Desempeño Académico Final",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JSxlppvceOdJ_9TN3nv4vreivxZMa_GsQXals2ZpZko/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Desempeño",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JSxlppvceOdJ_9TN3nv4vreivxZMa_GsQXals2ZpZko/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fecha Notificación Comunicado": "={{ $json.fecha_actual_comunicado }}",
+            "Aviso Comunicado": "TRUE",
+            "Mensaje Comunicado": "={{ $('LLM Comunicado').item.json.text }}",
+            "ID": "={{ $('Desempeño Académico Final').item.json.ID }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Apellido",
+              "displayName": "Apellido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Inasistencias",
+              "displayName": "Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Comunicado",
+              "displayName": "Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Practicas del Lenguaje",
+              "displayName": "Practicas del Lenguaje",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Matemática",
+              "displayName": "Matemática",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ciencias Sociales",
+              "displayName": "Ciencias Sociales",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ciencias Naturales",
+              "displayName": "Ciencias Naturales",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Promedio",
+              "displayName": "Promedio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Responsable del mensaje",
+              "displayName": "Responsable del mensaje",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Mensaje Inasistencias",
+              "displayName": "Mensaje Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Aviso Inasistencias",
+              "displayName": "Aviso Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Fecha Notificación Inasistencias",
+              "displayName": "Fecha Notificación Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Mensaje Comunicado",
+              "displayName": "Mensaje Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Aviso Comunicado",
+              "displayName": "Aviso Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha Notificación Comunicado",
+              "displayName": "Fecha Notificación Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Mensaje Calificaciones",
+              "displayName": "Mensaje Calificaciones",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Aviso Calificaciones",
+              "displayName": "Aviso Calificaciones",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Fecha Notificación Calificaciones",
+              "displayName": "Fecha Notificación Calificaciones",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -752,
+        -704
+      ],
+      "id": "4b0a63e0-febf-416f-af15-8ea8a1a5fe41",
+      "name": "Actualización de GS Comunicado",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "86sQh3WyD7FRnqDL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1ea52e8-6464-464e-937b-7886a201c7a6",
+              "name": "fecha_actual_calificaciones",
+              "value": "={{ $now.format('dd-MM-yyyy') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -992,
+        -224
+      ],
+      "id": "ca783609-e2f3-4753-bbaa-6f0e431269f5",
+      "name": "Fecha Calificaciones"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1JSxlppvceOdJ_9TN3nv4vreivxZMa_GsQXals2ZpZko",
+          "mode": "list",
+          "cachedResultName": "Desempeño Académico Final",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JSxlppvceOdJ_9TN3nv4vreivxZMa_GsQXals2ZpZko/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Desempeño",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JSxlppvceOdJ_9TN3nv4vreivxZMa_GsQXals2ZpZko/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $('Desempeño Académico Final').item.json.Email }}",
+            "Aviso Calificaciones": "TRUE",
+            "Fecha Notificación Calificaciones": "={{ $json.fecha_actual_calificaciones }}",
+            "Mensaje Calificaciones": "={{ $('LLM Calificaciones').item.json.text }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Nombre",
+              "displayName": "Nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Apellido",
+              "displayName": "Apellido",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Inasistencias",
+              "displayName": "Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Comunicado",
+              "displayName": "Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Practicas del Lenguaje",
+              "displayName": "Practicas del Lenguaje",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Matemática",
+              "displayName": "Matemática",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ciencias Sociales",
+              "displayName": "Ciencias Sociales",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ciencias Naturales",
+              "displayName": "Ciencias Naturales",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Promedio",
+              "displayName": "Promedio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Responsable del mensaje",
+              "displayName": "Responsable del mensaje",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Cargo",
+              "displayName": "Cargo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Mensaje Inasistencias",
+              "displayName": "Mensaje Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Aviso Inasistencias",
+              "displayName": "Aviso Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Fecha Notificación Inasistencias",
+              "displayName": "Fecha Notificación Inasistencias",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Mensaje Comunicado",
+              "displayName": "Mensaje Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Aviso Comunicado",
+              "displayName": "Aviso Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Fecha Notificación Comunicado",
+              "displayName": "Fecha Notificación Comunicado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Mensaje Calificaciones",
+              "displayName": "Mensaje Calificaciones",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Aviso Calificaciones",
+              "displayName": "Aviso Calificaciones",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fecha Notificación Calificaciones",
+              "displayName": "Fecha Notificación Calificaciones",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -752,
+        -224
+      ],
+      "id": "3014d2de-728c-4c0d-a1f5-e805c9ce4de8",
+      "name": "Actualización de GS Calificaciones",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "86sQh3WyD7FRnqDL",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f013cbd3-1dd7-4140-95a9-d2c07133f2dd",
+              "leftValue": "={{ $json.Inasistencias }}",
+              "rightValue": 20,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "b21ce32e-ed01-4ee7-8c9b-d5fb89c7823a",
+              "leftValue": "={{ $json['Aviso Inasistencias'] }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2096,
+        -928
+      ],
+      "id": "623af82b-96f4-4de1-a9d6-ce67021237b3",
+      "name": "Inasistencias"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b51203bb-2a8a-4f6f-8386-33ec79d34dd0",
+              "leftValue": "={{ $json.Comunicado }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "1e4ca4f8-1447-4abe-84e9-723a6b4ca77f",
+              "leftValue": "={{ $json['Aviso Comunicado'] }}",
+              "rightValue": "false",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1824,
+        -640
+      ],
+      "id": "1d0df4e4-ea5b-4963-95a0-560d651df021",
+      "name": "Comunicado"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2bfc5c20-ca1c-4018-8e17-f394767cdbb5",
+              "leftValue": "={{ $json['Practicas del Lenguaje'] }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "6bf90542-0be6-4a17-9ee7-17aa1e38f2ba",
+              "leftValue": "={{ $json['Matemática'] }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "b0a2e543-9cf6-4993-b467-b0f5311a8fe1",
+              "leftValue": "={{ $json['Ciencias Sociales'] }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "2cf5d02d-74af-44de-858c-ec6c020f69fe",
+              "leftValue": "={{ $json['Ciencias Naturales'] }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "9c191f89-a896-4e46-a0f5-f64135d12405",
+              "leftValue": "={{ $json['Aviso Calificaciones'] }}.toString()",
+              "rightValue": "FALSE",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2080,
+        -240
+      ],
+      "id": "e2cdcd8a-4edd-4c64-91a3-9408f02e8998",
+      "name": "Calificaciones",
+      "executeOnce": false,
+      "retryOnFail": false,
+      "alwaysOutputData": false,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "6f98ab5d-006f-403a-8a7b-4d531d36a5a1",
+              "leftValue": "={{ $('Desempeño Académico Final').item.json.Comunicado }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -1280,
+        -704
+      ],
+      "id": "4f51146c-d376-4612-b4bc-e7fed5519ffd",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "eb76811f-b2cd-4823-9820-edd1cd285a96",
+              "leftValue": "={{ $('Desempeño Académico Final').item.json['Matemática'] }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "22d79615-bcdd-4c40-8e33-509cee734a33",
+              "leftValue": "={{ $('Desempeño Académico Final').item.json['Ciencias Sociales'] }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "b45ae3fa-8bb3-44e0-99b0-8e4842f33a02",
+              "leftValue": "={{ $('Desempeño Académico Final').item.json['Ciencias Naturales'] }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "c8aeecfb-be83-46b2-8ee5-1472b65d8d26",
+              "leftValue": "={{ $('Desempeño Académico Final').item.json['Practicas del Lenguaje'] }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -1440,
+        -224
+      ],
+      "id": "34f5e9ea-4b0f-4307-84e1-6a9f1bfa718d",
+      "name": "Filter1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Envio de Mensaje": {
+      "main": [
+        [
+          {
+            "node": "Fecha Inasistencias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envio de mail si + de 20 inasistencias": {
+      "main": [
+        [
+          {
+            "node": "Envio de Mensaje",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envio de mail si existe comunicado": {
+      "main": [
+        [
+          {
+            "node": "Fecha Comunicado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Desempeño Académico Final": {
+      "main": [
+        [
+          {
+            "node": "Inasistencias",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Comunicado",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Calificaciones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualización de GS Inasistencias": {
+      "main": [
+        []
+      ]
+    },
+    "LLM Inasistencias": {
+      "main": [
+        [
+          {
+            "node": "Envio de mail si + de 20 inasistencias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fecha Inasistencias": {
+      "main": [
+        [
+          {
+            "node": "Actualización de GS Inasistencias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM Comunicado": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fecha Comunicado": {
+      "main": [
+        [
+          {
+            "node": "Actualización de GS Comunicado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Modelo Inasistencias": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "LLM Inasistencias",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Modelo Comunicado": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "LLM Comunicado",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Modelo Calificaciones": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "LLM Calificaciones",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM Calificaciones": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualización de GS Comunicado": {
+      "main": [
+        []
+      ]
+    },
+    "Envio de mail si existen calificaciones": {
+      "main": [
+        [
+          {
+            "node": "Fecha Calificaciones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fecha Calificaciones": {
+      "main": [
+        [
+          {
+            "node": "Actualización de GS Calificaciones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actualización de GS Calificaciones": {
+      "main": [
+        []
+      ]
+    },
+    "Inasistencias": {
+      "main": [
+        [
+          {
+            "node": "LLM Inasistencias",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Comunicado": {
+      "main": [
+        [],
+        [
+          {
+            "node": "LLM Comunicado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calificaciones": {
+      "main": [
+        [],
+        [
+          {
+            "node": "LLM Calificaciones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Envio de mail si existe comunicado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Envio de mail si existen calificaciones",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "8c5ee6a8-c40d-43ee-864d-617018a2862f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9c78b9ccb022c7bc9cc90d4e6477ec3a8aaf6536ded93f50607beae251501e95"
+  },
+  "id": "YI0XvMDQ8Eq8nRJ7CsxnR",
+  "tags": []
+}
